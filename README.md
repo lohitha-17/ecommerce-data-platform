@@ -1,18 +1,39 @@
-# E-commerce Data Platform
+# E-commerce Data Platform (BigQuery)
 
-This project demonstrates an end-to-end data engineering workflow using a real-world e-commerce dataset.
-
-## Goals
-- Build analytics-ready tables from raw transactional data
-- Calculate core business KPIs such as daily and monthly revenue
-- Apply correct business logic (completed orders only)
-- Use SQL best practices in a cloud data warehouse (BigQuery)
+End-to-end data engineering project using the theLook e-commerce public dataset in BigQuery.  
+The goal is to produce analytics-ready KPI marts with correct business logic (e.g., revenue from completed orders only).
 
 ## Dataset
-- Source: theLook E-commerce (BigQuery public dataset)
+- Source: theLook eCommerce (BigQuery public dataset)
+- Core tables used:
+  - `orders` (order status and timestamps)
+  - `order_items` (item-level sale price; source of truth for revenue)
 
-## Tech Stack
-- Google BigQuery
-- SQL
+## Business Rules
+- Revenue is calculated from `order_items.sale_price`
+- Only orders with `orders.status = 'Complete'` are included in revenue
 
-More components (monitoring, MLOps, dashboards) will be added incrementally.
+## KPI Marts (SQL Outputs)
+All marts are located in `sql/marts/`.
+
+- `revenue_daily.sql`
+  - Daily revenue time series for completed orders
+  - Used for trend analysis and daily reporting
+
+- `revenue_monthly.sql`
+  - Monthly revenue aggregated by year-month for completed orders
+  - Used for executive summaries and month-over-month comparisons
+
+- `order_kpis.sql`
+  - Counts orders by status and computes the share of total orders per status
+  - Includes defensive logic using `SAFE_DIVIDE` to avoid divide-by-zero failures
+
+## How to Run
+1. Open BigQuery Studio
+2. Paste a query from `sql/marts/`
+3. Run the query
+
+## Next Steps (Planned)
+- Data quality checks (nulls, invalid values, consistency)
+- Monitoring (freshness and row-count drift)
+- Optional: dashboard layer for KPI visualization
