@@ -32,8 +32,12 @@ All marts are located in `sql/marts/`.
 1. Open BigQuery Studio
 2. Paste a query from `sql/marts/`
 3. Run the query
+   
+## Data Reliability & Monitoring
+- Implemented data quality checks for timestamps and missing facts
+- Added monitoring queries for data freshness and daily order volume
 
-## Next Steps (Planned)
-- Data quality checks (nulls, invalid values, consistency)
-- Monitoring (freshness and row-count drift)
-- Optional: dashboard layer for KPI visualization
+## Next Steps
+- Optional dashboard layer for KPI visualization
+- Optional automation / scheduling
+
